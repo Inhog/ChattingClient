@@ -28,7 +28,7 @@ public class roomNum_page extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public roomNum_page(String name, login_page lp) { // ID와 로그인창을 파라미터로 받음...
+	public roomNum_page(String name, login_page lp) { // ID와 로그인창을 파라미터로 받음
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter(){ //닫기버튼 설정
 			@Override
