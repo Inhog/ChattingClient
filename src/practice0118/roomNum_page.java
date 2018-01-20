@@ -28,32 +28,32 @@ public class roomNum_page extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public roomNum_page(String name, login_page lp) { // ID¿Í ·Î±×ÀÎÃ¢À» ÆÄ¶ó¹ÌÅÍ·Î ¹ŞÀ½
+	public roomNum_page(String name, login_page lp) { // IDì™€ ë¡œê·¸ì¸ì°½ì„ íŒŒë¼ë¯¸í„°ë¡œ ë°›ìŒ
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter(){ //´İ±â¹öÆ° ¼³Á¤
+		addWindowListener(new WindowAdapter(){ //ë‹«ê¸°ë²„íŠ¼ ì„¤ì •
 			@Override
 			public void windowClosing(WindowEvent WE)
 			{
-				lp.setEnabled(true); // ·Î±×ÀÎÃ¢ ¼öÁ¤ °¡´É
-				setVisible(false); // ¹æ¹øÈ£ Ã¢ ´İ±â
+				lp.setEnabled(true); // ë¡œê·¸ì¸ì°½ ìˆ˜ì • ê°€ëŠ¥
+				setVisible(false); // ë°©ë²ˆí˜¸ ì°½ ë‹«ê¸°
 			}
 		});
 		setBounds(100, 100, 320, 209);
-		setAlwaysOnTop(true); // Ç×»ó ¸Ç À§·Î
-		lp.setEnabled(false); // ·Î±×ÀÎÃ¢ ¼öÁ¤ ±İÁö
+		setAlwaysOnTop(true); // í•­ìƒ ë§¨ ìœ„ë¡œ ì„¤ì •
+		lp.setEnabled(false); // ë¡œê·¸ì¸ì°½ ìˆ˜ì • ê¸ˆì§€
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		RoomNum_Field = new JTextField();
-		RoomNum_Field.setFont(new Font("±¼¸²", Font.PLAIN, 12));
+		RoomNum_Field.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 12));
 		RoomNum_Field.setBounds(156, 65, 123, 36);
 		contentPane.add(RoomNum_Field);
 		RoomNum_Field.setColumns(10);
 		
 		textField = new JTextField();
-		textField.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		textField.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 16));
 		textField.setText("\uCC44\uD305\uBC29\uBC88\uD638");
 		textField.setBackground(UIManager.getColor("Label.background"));
 		textField.setBounds(12, 72, 106, 21);
@@ -70,7 +70,7 @@ public class roomNum_page extends JFrame {
 				cp.setVisible(true);
 			}
 		});
-		Join_Button.setFont(new Font("±¼¸²", Font.PLAIN, 16));
+		Join_Button.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 16));
 		Join_Button.setBounds(96, 139, 106, 21);
 		contentPane.add(Join_Button);
 		
