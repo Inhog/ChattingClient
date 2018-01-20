@@ -39,7 +39,7 @@ public class roomNum_page extends JFrame {
 			}
 		});
 		setBounds(100, 100, 320, 209);
-		setAlwaysOnTop(true); // 항상 맨 위로 설정
+		setAlwaysOnTop(true); // 항상 맨 위로 설정!!
 		lp.setEnabled(false); // 로그인창 수정 금지
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
