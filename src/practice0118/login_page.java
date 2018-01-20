@@ -49,7 +49,7 @@ public class login_page extends JFrame {
 	}
 
 	/**
-	 * Create the frame. 주석바꿔서 실험
+	 * Create the frame. 주석바꿔서 실험 2
 	 */
 	public login_page() {
 		setTitle("Log-in");
