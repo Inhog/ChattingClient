@@ -10,90 +10,82 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class signUp_page extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField IDField;
-	private JTextField Id_Field;
-	private JTextField PWField;
-	private JTextField Pw_Field;
+	private JTextField ID_TextField;
+	private JTextField PW_TextField;
 	private JButton Signup_Button;
 	private JButton Close_Button;
-	private JLabel lblNewLabel;
+	private JLabel ID_Label;
 	private login_page lp;
+	private JLabel PW_Label;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					signUp_page frame = new signUp_page();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public signUp_page() {
-		lp = new login_page();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public signUp_page(login_page lp) {
+		setTitle("ÌöåÏõêÍ∞ÄÏûÖ");
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter(){ //Îã´Í∏∞Î≤ÑÌäº ÏÑ§Ï†ï
+			@Override
+			public void windowClosing(WindowEvent S_WE)
+			{
+				lp.setEnabled(true); // Î°úÍ∑∏Ïù∏Ï∞Ω ÏàòÏ†ï Í∞ÄÎä•
+				setVisible(false); // Î∞©Î≤àÌò∏ Ï∞Ω Îã´Í∏∞
+			}
+		});
 		setBounds(100, 100, 325, 340);
+		setAlwaysOnTop(true);
+		lp.setEnabled(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		IDField = new JTextField();
-		IDField.setText("ID");
-		IDField.setFont(new Font("±º∏≤", Font.PLAIN, 18));
-		IDField.setEditable(false);
-		IDField.setColumns(10);
-		IDField.setBackground(new Color(169, 169, 169));
-		IDField.setBounds(40, 43, 106, 21);
-		contentPane.add(IDField);
+		ID_TextField = new JTextField();
+		ID_TextField.setColumns(10);
+		ID_TextField.setBounds(160, 38, 123, 36);
+		contentPane.add(ID_TextField);
 		
-		Id_Field = new JTextField();
-		Id_Field.setColumns(10);
-		Id_Field.setBounds(160, 38, 123, 36);
-		contentPane.add(Id_Field);
-		
-		PWField = new JTextField();
-		PWField.setText("PW");
-		PWField.setFont(new Font("±º∏≤", Font.PLAIN, 18));
-		PWField.setEditable(false);
-		PWField.setColumns(10);
-		PWField.setBackground(new Color(169, 169, 169));
-		PWField.setBounds(40, 119, 106, 21);
-		contentPane.add(PWField);
-		
-		Pw_Field = new JTextField();
-		Pw_Field.setColumns(10);
-		Pw_Field.setBounds(160, 111, 123, 36);
-		contentPane.add(Pw_Field);
+		PW_TextField = new JTextField();
+		PW_TextField.setColumns(10);
+		PW_TextField.setBounds(160, 111, 123, 36);
+		contentPane.add(PW_TextField);
 		
 		Signup_Button = new JButton("\uAC00\uC785");
-		Signup_Button.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		Signup_Button.setFont(new Font("ÔøΩÔøΩÔøΩÔøΩ", Font.PLAIN, 16));
 		Signup_Button.setBounds(40, 174, 95, 23);
 		contentPane.add(Signup_Button);
 		
 		Close_Button = new JButton("\uCDE8\uC18C");
-		Close_Button.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		Close_Button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		Close_Button.setFont(new Font("ÔøΩÔøΩÔøΩÔøΩ", Font.PLAIN, 16));
 		Close_Button.setBounds(171, 174, 95, 23);
 		contentPane.add(Close_Button);
 		
-		lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(89, 236, 95, 36);
+		ID_Label = new JLabel("ID");
+		ID_Label.setBounds(40, 38, 95, 36);
 
-		contentPane.add(lblNewLabel);
+		contentPane.add(ID_Label);
+		
+		PW_Label = new JLabel("PW");
+		PW_Label.setBounds(40, 111, 95, 36);
+		contentPane.add(PW_Label);
 	}
 }
