@@ -33,10 +33,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.*;
+import javax.swing.ScrollPaneConstants;
 
 
 
@@ -45,6 +48,7 @@ public class chatting_page extends JFrame implements Runnable {
 	private JPanel contentPane;
 	private final static String newline = "\n";
 	private JTextArea ChatLog_TextPane;
+	private JScrollPane Chat_scrollPane;
 	private Socket socket;
 	private PrintWriter pw;
 	private BufferedReader br;
@@ -90,14 +94,15 @@ public class chatting_page extends JFrame implements Runnable {
 		contentPane.setLayout(null);
 		
 		
-		JTextField TextLog = new JTextField();
+		JTextArea TextLog = new JTextArea();
 		TextLog.setBounds(1, 1, 241, 30);
 		TextLog.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		contentPane.add(TextLog);
 	
 		
 		JScrollPane Text_scrollPane = new JScrollPane(TextLog);
-		Text_scrollPane.setBounds(0, 421, 191, 32);
+		Text_scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		Text_scrollPane.setBounds(0, 414, 191, 39);
 		contentPane.add(Text_scrollPane);
 		
 		JLabel RoomName_Label = new JLabel(Roomname);
@@ -111,10 +116,6 @@ public class chatting_page extends JFrame implements Runnable {
 		Member_Label.setBounds(273, 0, 134, 30);
 		contentPane.add(Member_Label);
 		
-		ChatLog_TextPane = new JTextArea();
-		ChatLog_TextPane.setEditable(false);
-		contentPane.add(ChatLog_TextPane);
-		
 		JButton Send_Button = new JButton("전송");
 		Send_Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -127,24 +128,73 @@ public class chatting_page extends JFrame implements Runnable {
 				}
 			}
 		});
-		Send_Button.setBounds(191, 421, 82, 32);
+		Send_Button.setBounds(191, 414, 82, 40);
 		contentPane.add(Send_Button);
 		
-		TextLog.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JTextField t= (JTextField)e.getSource();
-				String send = "msg|" + Roomname + "|" + t.getText();
-				if(!(t.getText().equals(""))) {
-					pw.println(send);
-					pw.flush();
-					TextLog.setText("");
-				}
+		TextLog.setLineWrap(true);
+		TextLog.setWrapStyleWord(true);
+/*		TextLog.addKeyListener(new KeyListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				JTextArea t= (JTextArea)e.getSource();
+//				String send = "msg|" + Roomname + "|" + t.getText();
+//				if(!(t.getText().equals(""))) {
+//					pw.println(send);
+//					pw.flush();
+//					TextLog.setText("");
+//				}
+//			}
+//
+//			@Override
+//			public void keyPressed(KeyEvent arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void keyReleased(KeyEvent arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void keyTyped(KeyEvent arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+		});
+		*/
+		TextLog.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				JTextArea t= (JTextArea)e.getSource();
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(e.isControlDown()) {
+						TextLog.append(System.lineSeparator());		// Ctrl + Enter 하면 텍스트영역 내 줄바꿈
+					}
+					else {
+						String send = "msg|" + Roomname + "|" + t.getText();
+						System.out.println(t.getText());
+						if(!(t.getText().equals(""))) {
+							pw.println(send);
+							pw.flush();
+							TextLog.setText("");
+							e.consume();
+					}
+			}
+		}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
-		
-		JScrollPane Chat_scrollPane = new JScrollPane(ChatLog_TextPane);
-		Chat_scrollPane.setBounds(0, 30, 273, 389);
-		contentPane.add(Chat_scrollPane);
 		
 		JButton Exit_Button = new JButton("나가기");
 		Exit_Button.addActionListener(new ActionListener() {
@@ -156,14 +206,27 @@ public class chatting_page extends JFrame implements Runnable {
 				new roomNum_page(socket);
 			}
 		});
-		Exit_Button.setBounds(281, 422, 112, 32);
+		
+		ChatLog_TextPane = new JTextArea();
+		ChatLog_TextPane.setEditable(false);
+		contentPane.add(ChatLog_TextPane);
+		ChatLog_TextPane.setLineWrap(true);
+		ChatLog_TextPane.setWrapStyleWord(true);
+		
+		JScrollPane Chat_scrollPane_1 = new JScrollPane(ChatLog_TextPane);
+		Chat_scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		Chat_scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		Chat_scrollPane_1.setBounds(0, 30, 273, 381);
+		contentPane.add(Chat_scrollPane_1);
+		Exit_Button.setBounds(273, 413, 130, 40);
 		contentPane.add(Exit_Button);
 		
 		
 		Member_TextPane = new JTextPane();
 		Member_TextPane.setEditable(false);
 		JScrollPane Member_scrollPane = new JScrollPane(Member_TextPane);
-		Member_scrollPane.setBounds(273, 30, 130, 389);
+		Member_scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		Member_scrollPane.setBounds(273, 30, 130, 381);
 		contentPane.add(Member_scrollPane);
 
 		
@@ -182,11 +245,13 @@ public class chatting_page extends JFrame implements Runnable {
 
 	            case "OUT": // [1] : 나간사람ID
 	            	ChatLog_TextPane.append(array[1]+"님이 나가셨습니다."+"\n");
+	            	ChatLog_TextPane.setCaretPosition(ChatLog_TextPane.getText().length());
 	                break;
 	       
 	               
 	            case "msg": // [1] : ID , [2] : 내용
-	            	ChatLog_TextPane.append(array[1]+ " : " + array[2] + "\n");	               
+	            	ChatLog_TextPane.append(array[1]+ " : " + array[2] + "\n");
+	            	ChatLog_TextPane.setCaretPosition(ChatLog_TextPane.getText().length());
 	                break;
 	                           
 	            case "GuestList": //[1] : 방제, [2] : 내용
@@ -195,6 +260,11 @@ public class chatting_page extends JFrame implements Runnable {
 	            		members += (array[i] + "\n");
 	            	Member_TextPane.setText(members);
 	            	break;
+	            	
+	            case "NEW":	// [1] : 들어온 사람 ID
+	            	ChatLog_TextPane.append(array[1]+"님이 들어오셨습니다."+"\n");
+	            	ChatLog_TextPane.setCaretPosition(ChatLog_TextPane.getText().length());
+	                break;
 	            
 	            case "Bye":
 	            	finish = true;
