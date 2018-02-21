@@ -106,7 +106,7 @@ public class login_page extends JFrame {
 				}
 				else
 				{
-					String send = "logIn|" + ID + "|" + PW;
+					String send = "logIn" + "|token|" + ID + "|token|" + PW;
 					pw.println(send);
 					pw.flush();
 					try {

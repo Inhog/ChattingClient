@@ -62,6 +62,7 @@ public class chatting_page extends JFrame implements Runnable {
 	 */
 	
 	public chatting_page(Socket socket, String Roomname) {
+		setResizable(false);
 		
 		
 		this.socket = socket;
@@ -80,14 +81,14 @@ public class chatting_page extends JFrame implements Runnable {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) { 
-            	String send = "OutRoom|" + Roomname;
+            	String send = "OutRoom" + "|token|" + Roomname;
             	pw.println(send);
 				pw.flush();
 				setVisible(false);
 				new roomNum_page(socket);
             }
     });
-		setBounds(100, 100, 421, 492);
+		setBounds(100, 100, 418, 496);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -120,7 +121,7 @@ public class chatting_page extends JFrame implements Runnable {
 		Send_Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String text = TextLog.getText();
-				String send = "msg|" + Roomname + "|" + text;
+				String send = "msg"+ "|token|" + Roomname + "|token|" + text;
 				if(!(text.equals(""))) {
 					pw.println(send);
 					pw.flush();
@@ -133,54 +134,27 @@ public class chatting_page extends JFrame implements Runnable {
 		
 		TextLog.setLineWrap(true);
 		TextLog.setWrapStyleWord(true);
-/*		TextLog.addKeyListener(new KeyListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				JTextArea t= (JTextArea)e.getSource();
-//				String send = "msg|" + Roomname + "|" + t.getText();
-//				if(!(t.getText().equals(""))) {
-//					pw.println(send);
-//					pw.flush();
-//					TextLog.setText("");
-//				}
-//			}
-//
-//			@Override
-//			public void keyPressed(KeyEvent arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void keyReleased(KeyEvent arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void keyTyped(KeyEvent arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-		});
-		*/
+
 		TextLog.addKeyListener(new KeyListener() {
 			public void keyPressed(KeyEvent e) {
 				JTextArea t= (JTextArea)e.getSource();
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if(e.isControlDown()) {
-						TextLog.append(System.lineSeparator());		// Ctrl + Enter 하면 텍스트영역 내 줄바꿈
+					if(t.getText().trim().length() > 1000) {
+						//천 자 미만으로 써달라고 경고창띄우기..지우지는 않기.
+						JOptionPane.showMessageDialog(null, "천 자 미만으로 입력해주십시오.", "입력 실패", JOptionPane.ERROR_MESSAGE);
+					}
+					else if(t.getText().trim().length() == 0) {
+						TextLog.setText("");
+						e.consume();
 					}
 					else {
-						String send = "msg|" + Roomname + "|" + t.getText();
-						System.out.println(t.getText());
-						if(!(t.getText().equals(""))) {
-							pw.println(send);
-							pw.flush();
-							TextLog.setText("");
-							e.consume();
+						String send = "msg" + "|token|" + Roomname + "|token|" + TextLog.getText();
+						pw.println(send);
+						pw.flush();
+						TextLog.setText("");
+						e.consume();
 					}
-			}
-		}
+				}
 			}
 
 			@Override
@@ -199,7 +173,7 @@ public class chatting_page extends JFrame implements Runnable {
 		JButton Exit_Button = new JButton("나가기");
 		Exit_Button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String send = "OutRoom|" + Roomname;
+				String send = "OutRoom" + "|token|" + Roomname;
             	pw.println(send);
 				pw.flush();
 				setVisible(false);
@@ -239,7 +213,7 @@ public class chatting_page extends JFrame implements Runnable {
 			while((line=br.readLine())!=null) {
 				//while((!Thread.currentThread().isInterrupted()) {
 				System.out.println(line+"읽음");
-				String array[] = line.split("\\|");
+				String array[] = line.split("\\|token\\|");
 				
 	            switch (array[0]) {
 

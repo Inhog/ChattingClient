@@ -106,7 +106,7 @@ public class roomNum_page extends JFrame {
 					if(PW.equals(""))			// 같은지 비교하는 메소드
 						PW = "none";
 					
-					String send = "MakeRoom|" + RoomName + "|" + PW;
+					String send = "MakeRoom" + "|token|" + RoomName + "|token|" + PW;
 					pw.println(send);
 					pw.flush();				
 					try {
@@ -145,7 +145,7 @@ public class roomNum_page extends JFrame {
 					if(PW.equals(""))			// 같은지 비교하는 메소드
 						PW = "none";
 					
-					String send = "JoinRoom|" + RoomName + "|" + PW;
+					String send = "JoinRoom" + "|token|" + RoomName + "|token|" + PW;
 					pw.println(send);
 					pw.flush();				
 					try {

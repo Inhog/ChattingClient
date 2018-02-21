@@ -18,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.net.*;
 import java.io.*;
@@ -82,11 +84,24 @@ public class signUp_page extends JFrame {
 		ID_TextField.setBounds(160, 38, 123, 36);
 		contentPane.add(ID_TextField);
 		
+		ID_TextField.addKeyListener(new KeyAdapter() { //�Է¼� ����
+			public void keyTyped(KeyEvent ke) {
+				JTextField src = (JTextField) ke.getSource();
+				if(src.getText().length()>=15) ke.consume();
+			}
+		});
+		
 		PW_TextField = new JTextField();
 		PW_TextField.setColumns(10);
 		PW_TextField.setBounds(160, 111, 123, 36);
 		contentPane.add(PW_TextField);
 		
+		PW_TextField.addKeyListener(new KeyAdapter() { //�Է¼� ����
+			public void keyTyped(KeyEvent ke) {
+				JTextField src = (JTextField) ke.getSource();
+				if(src.getText().length()>=15) ke.consume();
+			}
+		});
 		
 		Signup_Button = new JButton("\uAC00\uC785");
 		Signup_Button.setFont(new Font("����", Font.PLAIN, 16));
@@ -104,7 +119,7 @@ public class signUp_page extends JFrame {
 				}
 				else
 					{
-					String send = "signUP|" + ID + "|" + PW;
+					String send = "signUP" + "|token|" + ID + "|token|" + PW;
 					pw.println(send);
 					pw.flush();
 					
