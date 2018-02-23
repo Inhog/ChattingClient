@@ -100,7 +100,7 @@ public class login_page extends JFrame {
 				
 				if(ID.trim().equals("") || PW.trim().equals(""))
 				{
-					JOptionPane.showMessageDialog(null, "모든 정보를 입력해주세요.", "회원가입 실패", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "모든 정보를 입력해주세요.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
 					ID_TextField.setText("");
 					PW_TextField.setText("");
 				}
@@ -121,7 +121,7 @@ public class login_page extends JFrame {
 						else
 						{
 							//로그인 실패
-							JOptionPane.showMessageDialog(null, "로그인 실패.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "아이디 혹은 비밀번호가 일치하지 않습니다.", "로그인 실패", JOptionPane.ERROR_MESSAGE);
 						}
 					} catch (IOException ee) {
 						ee.printStackTrace();

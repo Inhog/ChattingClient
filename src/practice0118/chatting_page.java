@@ -119,34 +119,111 @@ public class chatting_page extends JFrame implements Runnable {
 		
 		JButton Send_Button = new JButton("전송");
 		Send_Button.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent arg0) {
 				String text = TextLog.getText();
-				String send = "msg"+ "|token|" + Roomname + "|token|" + text;
-				if(!(text.equals(""))) {
-					pw.println(send);
-					pw.flush();
+				String[] MSGS = text.split(" ");
+				
+				if(text.trim().length() > 1000) {	//천 자 미만으로 써달라고 경고창띄우기..지우지는 않기.
+					JOptionPane.showMessageDialog(null, "천 자 미만으로 입력해주십시오.", "입력 실패", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				else if(text.trim().length() == 0) {		// 공백이면 TextField 비우기
 					TextLog.setText("");
+				}
+				
+				else if(MSGS[0].equals("/w"))		// 귓속말
+				{
+					if(MSGS.length >= 3)
+					{
+						String Wsend = "whis"+ "|token|" + Roomname + "|token|"+ MSGS[1] + "|token|";
+						
+						ChatLog_TextPane.append("[귓속말] "+ MSGS[1] + "에게 : ");
+						
+						for(int i = 2; i < MSGS.length ; i++) {
+							Wsend += (MSGS[i] + " ");
+						ChatLog_TextPane.append(MSGS[i]+" ");
+						}
+						ChatLog_TextPane.append("\n");
+						
+						
+						pw.println(Wsend);
+						pw.flush();
+						TextLog.setText("");
+					}
+					
+					else
+					{
+						TextLog.setText("");
+						ChatLog_TextPane.append("귓속말 사용범 : /w 받는사람ID 할말\n");
+		            	ChatLog_TextPane.setCaretPosition(ChatLog_TextPane.getText().length());	
+					}
+				}
+				
+				else
+				{
+					String send = "msg"+ "|token|" + Roomname + "|token|" + text;
+					if(!(text.equals(""))) {
+						pw.println(send);
+						pw.flush();
+						TextLog.setText("");
+					}
 				}
 			}
 		});
 		Send_Button.setBounds(191, 414, 82, 40);
 		contentPane.add(Send_Button);
 		
+		
 		TextLog.setLineWrap(true);
 		TextLog.setWrapStyleWord(true);
 
+		
 		TextLog.addKeyListener(new KeyListener() {
+			
 			public void keyPressed(KeyEvent e) {
 				JTextArea t= (JTextArea)e.getSource();
+				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					if(t.getText().trim().length() > 1000) {
-						//천 자 미만으로 써달라고 경고창띄우기..지우지는 않기.
+					String[] MSGS = t.getText().split(" ");
+					 
+					if(t.getText().trim().length() > 1000) {		//천 자 미만으로 써달라고 경고창띄우기..지우지는 않기.
 						JOptionPane.showMessageDialog(null, "천 자 미만으로 입력해주십시오.", "입력 실패", JOptionPane.ERROR_MESSAGE);
 					}
+					
 					else if(t.getText().trim().length() == 0) {
 						TextLog.setText("");
 						e.consume();
 					}
+					
+					else if(MSGS[0].equals("/w")) {
+						if(MSGS.length >= 3)
+						{
+							String Wsend = "whis"+ "|token|" + Roomname + "|token|"+ MSGS[1] + "|token|";
+							ChatLog_TextPane.append("[귓속말] "+ MSGS[1] + "에게 : ");
+							
+							for(int i = 2; i < MSGS.length ; i++) {
+								Wsend += (MSGS[i] + " ");
+							ChatLog_TextPane.append(MSGS[i]+" ");
+							}
+							ChatLog_TextPane.append("\n");
+							
+							pw.println(Wsend);
+							pw.flush();								
+			            	ChatLog_TextPane.setCaretPosition(ChatLog_TextPane.getText().length());	
+							TextLog.setText("");
+							e.consume();
+						}
+						
+						else
+						{
+							TextLog.setText("");
+							e.consume();
+							ChatLog_TextPane.append("귓속말 사용법 : /w 받는사람ID 할말\n");
+			            	ChatLog_TextPane.setCaretPosition(ChatLog_TextPane.getText().length());	
+						}
+					}
+					
 					else {
 						String send = "msg" + "|token|" + Roomname + "|token|" + TextLog.getText();
 						pw.println(send);
@@ -227,7 +304,14 @@ public class chatting_page extends JFrame implements Runnable {
 	            	ChatLog_TextPane.append(array[1]+ " : " + array[2] + "\n");
 	            	ChatLog_TextPane.setCaretPosition(ChatLog_TextPane.getText().length());
 	                break;
-	                           
+	                
+	                
+	            case "whisper": // [1] : ID , [2] : 내용
+	            	ChatLog_TextPane.append("[귓속말] " + array[1] + "으로부터 : " + array[2] + "\n");
+	            	ChatLog_TextPane.setCaretPosition(ChatLog_TextPane.getText().length());
+	                break;
+	                
+	                
 	            case "GuestList": //[1] : 방제, [2] : 내용
 	            	String members = "";
 	            	for(int i = 1 ; i < array.length ; i++)

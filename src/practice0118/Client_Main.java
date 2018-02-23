@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 
 public class Client_Main {
 
-	private JFrame frame;
+	private JFrame frmIp;
 	private JTextField IP_TextField;
 	static private Client_Main window;
 	/**
@@ -35,7 +35,7 @@ public class Client_Main {
 			public void run() {
 				try {
 					window = new Client_Main();
-					window.frame.setVisible(true);
+					window.frmIp.setVisible(true);
 					
 					
 				} catch (Exception e) {
@@ -56,20 +56,21 @@ public class Client_Main {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 373, 237);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmIp = new JFrame();
+		frmIp.setTitle("IP 입력창");
+		frmIp.setResizable(false);
+		frmIp.setBounds(100, 100, 373, 237);
+		frmIp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmIp.getContentPane().setLayout(null);
 		
 		IP_TextField = new JTextField();
 		IP_TextField.setBounds(66, 38, 231, 35);
-		frame.getContentPane().add(IP_TextField);
+		frmIp.getContentPane().add(IP_TextField);
 		IP_TextField.setColumns(10);
 		
 		JLabel IP_Label = new JLabel("서버 IP");
 		IP_Label.setBounds(12, 38, 57, 35);
-		frame.getContentPane().add(IP_Label);
+		frmIp.getContentPane().add(IP_Label);
 		
 		JTextArea EX_TextArea = new JTextArea();
 		EX_TextArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
@@ -79,7 +80,7 @@ public class Client_Main {
 		EX_TextArea.setTabSize(14);
 		EX_TextArea.setText("EX ) 1.2.3.4");
 		EX_TextArea.setBounds(66, 83, 162, 38);
-		frame.getContentPane().add(EX_TextArea);
+		frmIp.getContentPane().add(EX_TextArea);
 		
 		JButton Join_Button = new JButton("접속");
 		Join_Button.addActionListener(new ActionListener() {
@@ -89,7 +90,7 @@ public class Client_Main {
 				try {
 					socket = new Socket(Server_ip, 10001);
 					new login_page(socket);
-					window.frame.setVisible(false);
+					window.frmIp.setVisible(false);
 				} catch (UnknownHostException e) {
 					JOptionPane.showMessageDialog(null, "해당 서버가 존재하지 않습니다.", "접속 실패", JOptionPane.ERROR_MESSAGE);
 					IP_TextField.setText("");
@@ -105,7 +106,7 @@ public class Client_Main {
 		});
 		Join_Button.setFont(new Font("굴림", Font.PLAIN, 14));
 		Join_Button.setBounds(66, 131, 97, 48);
-		frame.getContentPane().add(Join_Button);
+		frmIp.getContentPane().add(Join_Button);
 		
 		JButton Erase_Button = new JButton("지우기");
 		Erase_Button.addActionListener(new ActionListener() {
@@ -115,6 +116,6 @@ public class Client_Main {
 		});
 		Erase_Button.setFont(new Font("굴림", Font.PLAIN, 14));
 		Erase_Button.setBounds(201, 131, 97, 48);
-		frame.getContentPane().add(Erase_Button);
+		frmIp.getContentPane().add(Erase_Button);
 	}
 }
