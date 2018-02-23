@@ -1,4 +1,4 @@
-package practice0118;
+package chattingClient;
 
 import java.awt.EventQueue;
 
